@@ -1,12 +1,15 @@
-import Input from "@/components/InputForm";
+import { authService } from "@/src/auth/authService";
+import { useRouter } from "next/router";
 import { useForm } from "react-hook-form";
 
-interface IFormInput {
+export interface IFormInput {
   Login: string;
   Senha: string;
 }
 
 export default function Login() {
+  const router = useRouter();
+
   const {
     register,
     handleSubmit,
@@ -21,23 +24,35 @@ export default function Login() {
     <div>
       <form
         onSubmit={handleSubmit((data) => {
+          authService
+            .login(data)
+            .then(() => {
+              router.push("/auth-page-srr");
+            })
+            .catch(() => {
+              <p>Usuário ou senha estão inválidos</p>;
+            });
           console.log(data);
         })}
         className="grid grid-cols-1 lg:grid-cols-3 w-[30rem] lg:w-[50rem] drop-shadow-xl"
       >
-        <h1 className="lg:col-span-2 h-24 lg:h-auto logo bg-neutral-900">Bibsys</h1>
+        <h1 className="lg:col-span-2 h-24 lg:h-auto logo bg-neutral-900">
+          Bibsys
+        </h1>
         <div className="lg:col-span-1 bg-white">
           <div className="flex-center flex-col">
             <div className="title mt-10">
               <h1>Login</h1>
             </div>
             <div className="mt-5">
-              <input className='input-login'
+              <input
+                className="input-login"
                 {...register("Login", { required: "Inserir o Nome" })}
                 placeholder="  Login"
               />
               <p>{errors.Login?.message}</p>
               <input
+                type="password"
                 className="mt-5 input-login"
                 {...register("Senha", {
                   required: "Inserir a Senha",

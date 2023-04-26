@@ -74,7 +74,7 @@ export default function Menu() {
           </div>
           {changeValueMenu ? (
             <Link
-              href={"/login"}
+              href={"/signUp"}
               className="item-menu-open bottom-0 w-full fixed"
             >
               <GiEntryDoor size={25} />
@@ -82,7 +82,7 @@ export default function Menu() {
             </Link>
           ) : (
             <div className="item-menu-close bottom-0 fixed">
-              <Link href={"/login"}>
+              <Link href={"/signUp"}>
                 <GiEntryDoor className="animation-icon" size={25} />
               </Link>
             </div>
