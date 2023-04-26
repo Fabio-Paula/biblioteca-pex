@@ -2,26 +2,41 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
+@layer base {
+  .flex-center {
+    @apply flex select-none justify-center items-center
+  }
+  .size-window {
+    @apply h-screen w-screen
+  }
+  .center-screen {
+    @apply flex-center size-window
+  }
+  .colors-menu {
+    @apply bg-gradient-to-b from-neutral-900 to-neutral-700
+  }
+  .title {
+    @apply text-2xl
+  }
+  .logo {
+    @apply text-white font-normal items-center justify-center flex text-4xl
   }
 }
 
-body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+@layer components {
+  .item-menu-open {
+    @apply flex items-center text-xl justify-start select-none text-white p-3 gap-4 cursor-pointer transition-colors hover:bg-white/20
+  }
+  .item-menu-close {
+    @apply flex flex-col p-3 cursor-pointer text-white gap-8 mt-24
+  }
+  .input-login {
+    @apply placeholder-black/80 p-3 bg-black/5 border-black/40 invalid:border-b-red-600 focus:outline-none focus:border-b-2
+  }
+}
+
+@layer utilities {
+  .animation-icon {
+    @apply transition ease-in-out hover:-translate-y-1 hover:scale-110 duration-300
+  }
 }
