@@ -1,5 +1,6 @@
 import { authService } from "@/src/auth/authService";
 import { useRouter } from "next/router";
+import React from "react";
 import { useForm } from "react-hook-form";
 
 export interface IFormInput {
@@ -9,6 +10,10 @@ export interface IFormInput {
 
 export default function Login() {
   const router = useRouter();
+  const [values, setValues] = React.useState({
+    user: 'fabio',
+    password: 'safepassword'
+  })
 
   const {
     register,
@@ -25,12 +30,13 @@ export default function Login() {
       <form
         onSubmit={handleSubmit((data) => {
           authService
-            .login(data)
+            .login(data) 
             .then(() => {
-              router.push("/auth-page-srr");
+              router.push("/signUp/auth-gape-ssr");
             })
             .catch(() => {
               <p>Usuário ou senha estão inválidos</p>;
+              console.log("errors");
             });
           console.log(data);
         })}

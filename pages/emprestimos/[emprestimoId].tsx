@@ -26,6 +26,6 @@ import { useRouter } from "next/router";
 export default function LoanDetail() {
 
   return <>
-
+    <h1></h1>
   </>;
 }
