@@ -7,9 +7,9 @@ interface IMainContainer {
 
 export default function MainContainer({ children }: IMainContainer) {
   return (
-    <div className="flex bg-black/5">
+    <div className="flex size-window bg-black/5">
       <Menu />
-      <div className="center-screen">{children}</div>
+      <div className="size-window">{children}</div>
     </div>
   );
 }

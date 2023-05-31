@@ -1,5 +1,5 @@
 export default function Page404(){
   return(
-    <h1>só cagada</h1>
+    <h1>404</h1>
   )
 }

@@ -1,22 +1,15 @@
 import { Box, Typography } from "@mui/material";
-import { DataGrid } from "@mui/x-data-grid";
+import { DataGrid, GridRowSelectionModel } from "@mui/x-data-grid";
 import moment from "moment";
+import { useEffect, useState } from "react";
 
 interface IRow {
   id: string;
   book: string;
   DateOfLoan: string;
-  status: string;
 }
 
 export default function Loan(props: any) {
-  function AlternatingColorTable(rows: number) {
-    if (rows % 2 == 0) {
-      return "bg-black/5";
-    } else {
-      return "bg-white";
-    }
-  }
 
   const columns = [
     {
@@ -24,7 +17,6 @@ export default function Loan(props: any) {
       headerName: "Livro",
       headerClassName: "bg-neutral-900 text-white",
       width: 400,
-
     },
     {
       field: "DateOfLoan",
@@ -33,13 +25,7 @@ export default function Loan(props: any) {
       width: 400,
       renderCell: (params: any) =>
         moment(params.row.createdAt).format("DD/MM/YYYY"),
-    },
-    {
-      field: "status",
-      headerName: "Status",
-      headerClassName: "bg-neutral-900 text-white",
-      width: 400,
-    },
+    }
   ];
 
   const rows: IRow[] = [
@@ -47,75 +33,97 @@ export default function Loan(props: any) {
       id: "1",
       book: "Como queimar um Pneu",
       DateOfLoan: "22-04-2023",
-      status: "Atrasado",
     },
     {
       id: "2",
       book: "Capoeirista loko",
       DateOfLoan: "22-04-2023",
-      status: "Pendente",
     },
     {
       id: "3",
       book: "Onças Pintadas",
       DateOfLoan: "22-04-2023",
-      status: "Pendente",
     },
     {
       id: "4",
       book: "Manual do Alien",
       DateOfLoan: "22-04-2023",
-      status: "Devolvido",
     },
     {
       id: "5",
       book: "Como queimar um Pneu",
       DateOfLoan: "22-04-2023",
-      status: "Atrasado",
     },
     {
       id: "6",
       book: "Capoeirista loko",
       DateOfLoan: "22-04-2023",
-      status: "Pendente",
     },
     {
       id: "7",
       book: "Onças Pintadas",
       DateOfLoan: "22-04-2023",
-      status: "Pendente",
     },
     {
       id: "8",
       book: "Manual do Alien",
       DateOfLoan: "22-04-2023",
-      status: "Devolvido",
     },
   ];
 
+  const [rowData, setRowData] = useState<GridRowSelectionModel>([]);
+
+  const handleRowClick = (params: any) => {
+    const lineData = params.row;
+    setRowData(lineData);
+  };
+
+  function changeBackgroundColor(data: number) {
+    if (data % 2 == 0) {
+      return "bg-black/10";
+    } else {
+      return "";
+    }
+  }
+
   return (
     <>
-      <Box sx={{ height: "auto", width: "70%" }}>
-        <Typography
-          variant="h3"
-          component="h3"
-          sx={{ textAlign: "center", mt: "-10%", mb: 3 }}
-        >
-          Empréstimos
-        </Typography>
-        <DataGrid
-          sx={{ cursor: "pointer", width: 'max-content'}}
-          initialState={{
-            pagination: {
-              paginationModel: { pageSize: 10 },
-            },
-          }}
-          getRowId={(row) => row.id}
-          className={`bg-white`}
-          columns={columns}
-          rows={rows}
-        />
-      </Box>
+      <div className="hidden justify-center items-center h-screen lg:flex">
+        <Box sx={{ height: "auto", width: "70%" }}>
+          <Typography
+            variant="h3"
+            component="h3"
+            sx={{ textAlign: "center", mt: "-10%", mb: 3 }}
+          >
+            Empréstimos
+          </Typography>
+          <DataGrid
+            sx={{ cursor: "pointer", width: "max-content", height: 'auto' }}
+            initialState={{
+              pagination: {
+                paginationModel: { pageSize: 10 },
+              },
+            }}
+            // checkboxSelection
+            onRowClick={handleRowClick}
+            className={`bg-white m-auto`}
+            columns={columns}
+            rows={rows}
+          />
+        </Box>
+      </div>
+      <div className="lg:hidden">
+        <div className="flex mt-5 ml-8 justify-center text-4xl">Livros</div>
+        <div className="grid mt-5 ml-8">
+          {rows.map((e, index) => (
+            <div key={e.id}
+              className={` ${changeBackgroundColor(index)} grid-cols-1 w-full text-center p-2 m-auto`}
+            >
+              {e.book}
+            </div>
+          ))}
+        </div>
+      </div>
     </>
   );
 }

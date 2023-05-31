@@ -32,7 +32,7 @@ export default function Login() {
           authService
             .login(data) 
             .then(() => {
-              router.push("/signUp/auth-gape-ssr");
+              router.push("/dashboard");
             })
             .catch(() => {
               <p>Usuário ou senha estão inválidos</p>;

@@ -3,7 +3,7 @@ import { BsFillPersonFill } from "react-icons/bs";
 import { FaBook } from "react-icons/fa";
 import { FaHandshake } from "react-icons/fa";
 import { GiEntryDoor } from "react-icons/gi";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 
@@ -13,7 +13,12 @@ const menuValues = [{
   icon: <BsFillPersonFill className="animation-icon" size={25} />
 },
   {
-  path: "/livros",
+  path: "/alunos/addStudents",
+  text: "Adicionar Livros",
+  icon: <FaBook className="animation-icon" size={25} />
+},
+  {
+  path: "/",
   text: "Livros",
   icon: <FaBook className="animation-icon" size={25} />
 }, {
@@ -24,6 +29,7 @@ const menuValues = [{
 
 export default function Menu() {
   const [changeValueMenu, setChangeValueMenu] = useState<boolean>(true);
+  const [windowSize, setWindowSize] = useState<number>(0);
   const { pathname } = useRouter()
 
   function ChangeStateMenu() {
@@ -32,17 +38,24 @@ export default function Menu() {
 
   function verifyMenuState(text: string){
     const itemText = text.toLowerCase()
-    if(pathname.includes(itemText)) return "bg-white/20"
+    if(pathname==itemText) return "bg-white/20"
     else return ""
   }
 
+  useEffect(() => {
+    setWindowSize(globalThis?.window?.innerWidth)
+  },[])
+
   return (
-      <nav className="flex">
+    <>
+    {changeValueMenu && windowSize < 1024 ?
+      <div onClick={() => setChangeValueMenu(false)} className="fixed w-full h-full bg-black/40 backdrop-blur-sm" /> : null}
+      <nav className="relative lg:flex">
         <div
           className={
             changeValueMenu
-              ? "w-[14rem] h-screen transition-all duration-200 colors-menu"
-              : "w-[3.5rem] h-screen transition-all duration-200 colors-menu"
+              ? "w-[14rem] absolute lg:relative h-screen transition-all duration-200 colors-menu"
+              : "w-[3.5rem] absolute lg:relative h-screen transition-all duration-200 colors-menu"
           }
         >
           {changeValueMenu && (
@@ -75,7 +88,7 @@ export default function Menu() {
           {changeValueMenu ? (
             <Link
               href={"/signUp"}
-              className="item-menu-open bottom-0 w-full fixed"
+              className="item-menu-open bottom-0 w-full absolute"
             >
               <GiEntryDoor size={25} />
               <h1>Sair</h1>
@@ -106,5 +119,6 @@ export default function Menu() {
           </div>
         )}
       </nav>
+    </>
   );
 }
