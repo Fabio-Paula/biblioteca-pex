@@ -111,7 +111,7 @@ export default function Loan(props: any) {
         <Typography
           variant="h3"
           component="h3"
-          sx={{ textAlign: "center", mb: 3 }}
+          sx={{ textAlign: "center", mt: "-10%", mb: 3 }}
         >
           Alunos
         </Typography>

@@ -11,9 +11,9 @@ export interface IFormInput {
 export default function Login() {
   const router = useRouter();
   const [values, setValues] = React.useState({
-    user: "fabio",
-    password: "safepassword",
-  });
+    user: 'fabio',
+    password: 'safepassword'
+  })
 
   const {
     register,
@@ -23,16 +23,16 @@ export default function Login() {
     defaultValues: { Login: "", Senha: "" },
   });
 
-  const { pathname } = useRouter();
+  console.log(errors);
 
   return (
-    <div className="flex justify-center items-center h-screen">
+    <div>
       <form
         onSubmit={handleSubmit((data) => {
           authService
-            .login(data)
+            .login(data) 
             .then(() => {
-              router.push("/");
+              router.push("/dashboard");
             })
             .catch(() => {
               <p>Usuário ou senha estão inválidos</p>;

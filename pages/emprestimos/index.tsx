@@ -1,7 +1,7 @@
 import { Box, Typography } from "@mui/material";
 import { DataGrid, GridRowSelectionModel } from "@mui/x-data-grid";
 import moment from "moment";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 interface IRow {
   id: string;
@@ -23,8 +23,8 @@ export default function Loan(props: any) {
       headerName: "Data de Empréstimo",
       headerClassName: "bg-neutral-900 text-white",
       width: 400,
-      // renderCell: (params: any) =>
-        // moment(params.row.createdAt).format("DD/MM/YYYY"),
+      renderCell: (params: any) =>
+        moment(params.row.createdAt).format("DD/MM/YYYY"),
     }
   ];
 
@@ -32,42 +32,42 @@ export default function Loan(props: any) {
     {
       id: "1",
       book: "Como queimar um Pneu",
-      DateOfLoan: "10-05-2023",
+      DateOfLoan: "22-04-2023",
     },
     {
       id: "2",
       book: "Capoeirista loko",
-      DateOfLoan: "14-04-2023",
+      DateOfLoan: "22-04-2023",
     },
     {
       id: "3",
       book: "Onças Pintadas",
-      DateOfLoan: "05-04-2023",
+      DateOfLoan: "22-04-2023",
     },
     {
       id: "4",
       book: "Manual do Alien",
-      DateOfLoan: "11-04-2023",
+      DateOfLoan: "22-04-2023",
     },
     {
       id: "5",
       book: "Como queimar um Pneu",
-      DateOfLoan: "20-04-2023",
+      DateOfLoan: "22-04-2023",
     },
     {
       id: "6",
       book: "Capoeirista loko",
-      DateOfLoan: "24-04-2023",
+      DateOfLoan: "22-04-2023",
     },
     {
       id: "7",
       book: "Onças Pintadas",
-      DateOfLoan: "18-04-2023",
+      DateOfLoan: "22-04-2023",
     },
     {
       id: "8",
       book: "Manual do Alien",
-      DateOfLoan: "23-04-2023",
+      DateOfLoan: "22-04-2023",
     },
   ];
 
@@ -88,12 +88,12 @@ export default function Loan(props: any) {
 
   return (
     <>
-      <div className="pt-5 hidden justify-center items-center h-screen lg:flex">
+      <div className="hidden justify-center items-center h-screen lg:flex">
         <Box sx={{ height: "auto", width: "70%" }}>
           <Typography
             variant="h3"
             component="h3"
-            sx={{ textAlign: "center", mb: 3 }}
+            sx={{ textAlign: "center", mt: "-10%", mb: 3 }}
           >
             Empréstimos
           </Typography>
