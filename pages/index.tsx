@@ -1,5 +1,6 @@
 import Button from "@/components/button";
 import { Box, Typography } from "@mui/material";
+import { CgTrash } from "react-icons/cg";
 import { DataGrid, GridRowSelectionModel } from "@mui/x-data-grid";
 import { useState } from "react";
 
@@ -83,9 +84,13 @@ export default function Books(props: any) {
     }
   }
 
+  function deleteBook(){
+    
+  }
+
   return (
     <>
-      <div className="mt-5 flex justify-end right-2 z-10 fixed lg:hidden">
+      <div className="pt-5 flex justify-end right-2 z-10 fixed lg:hidden">
         <Button>Emprestar</Button>
       </div>
       <div className="hidden justify-center items-center h-screen flex-col lg:flex">
@@ -113,8 +118,13 @@ export default function Books(props: any) {
             />
           </Box>
         </div>
-        <div className="mt-5 flex justify-end">
-          <Button>Emprestar</Button>
+        <div className="flex gap-5">
+          <div className="mt-5 flex justify-end">
+            <Button>Emprestar</Button>
+          </div>
+          <div className="mt-5 flex justify-end">
+            <Button>Remover</Button>
+          </div>
         </div>
       </div>
       <div className="lg:hidden">
@@ -127,7 +137,12 @@ export default function Books(props: any) {
                 index
               )} grid-cols-1 w-full text-center p-2 m-auto`}
             >
-              {e.book}
+              <div className="flex items-center">
+                <div className="w-[90%]">{e.book}</div>
+                <div>
+                  <CgTrash onClick={deleteBook} size={20} className="hover:text-red-600 cursor-pointer"/>
+                </div>
+              </div>
             </div>
           ))}
         </div>
