@@ -1,11 +1,10 @@
-import { HiMenu } from "react-icons/hi";
-import { BsFillPersonFill } from "react-icons/bs";
-import { FaBook } from "react-icons/fa";
-import { FaHandshake } from "react-icons/fa";
-import { GiEntryDoor } from "react-icons/gi";
-import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
+import { BsFillPersonFill } from "react-icons/bs";
+import { FaBook, FaHandshake } from "react-icons/fa";
+import { GiEntryDoor } from "react-icons/gi";
+import { HiMenu } from "react-icons/hi";
 
 const menuValues = [{
   path: "/alunos",
@@ -48,6 +47,8 @@ export default function Menu() {
 
   return (
     <>
+    {pathname != '/signUp' &&
+    <>
     {changeValueMenu && windowSize < 1024 ?
       <div onClick={() => setChangeValueMenu(false)} className="fixed w-full h-full bg-black/40 backdrop-blur-sm" /> : null}
       <nav className="relative lg:flex">
@@ -58,7 +59,7 @@ export default function Menu() {
               : "w-[3.5rem] absolute lg:relative h-screen transition-all duration-200 colors-menu"
           }
         >
-          {changeValueMenu && (
+        {changeValueMenu && (
             <Link href={"/"} className="flex-center">
               <h1 className="mt-3 text-2xl text-white">Bibsys</h1>
             </Link>
@@ -118,7 +119,9 @@ export default function Menu() {
             />
           </div>
         )}
-      </nav>
+        </nav>
+    </>
+    }
     </>
   );
 }
