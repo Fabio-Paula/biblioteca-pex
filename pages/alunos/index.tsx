@@ -1,16 +1,34 @@
+import api from "@/src/auth/infra/HttpClient";
+import { URL_GET } from "@/src/constants/service";
 import { Box, Typography } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
-import moment from "moment";
 import { useRouter } from "next/dist/client/router";
 
-interface IRow {
-  id: string;
-  name: string;
-  book: string;
-  DateOfLoan: string;
+interface IStudents {
+  id_aluno?: number,
+  id_usuario?: number,
+  periodo: string,
+  curso: string,
+  registro_academico?: string
 }
 
-export default function Loan(props: any) {
+export const getServerSideProps = async (ctx : any) => {
+  const res = await api(ctx).get(`${URL_GET.alunos}`)
+  if(res.data){
+    const data = res.data
+    return {
+      props: {
+        data 
+      }
+    }
+  }
+  return {}
+}
+
+export default function Loan({data} : {data: IStudents[]}) {
+  console.log(data)
+  // const [students, setStudents] = useState<IStudents>(data)
+
   function AlternatingColorTable(rows: number) {
     if (rows % 2 == 0) {
       return "bg-black/5";
@@ -28,72 +46,32 @@ export default function Loan(props: any) {
 
     },
     {
-      field: "book",
-      headerName: "Livro",
+      field: "periodo",
+      headerName: "Período",
       headerClassName: "bg-neutral-900 text-white",
       width: 350,
 
     },
     {
-      field: "DateOfLoan",
-      headerName: "Data de Empréstimo",
+      field: "curso",
+      headerName: "Curso",
       headerClassName: "bg-neutral-900 text-white",
       width: 300,
-      renderCell: (params: any) =>
-        moment(params.row.createdAt).format("DD/MM/YYYY"),
+    },
+    {
+      field: "registro_academico",
+      headerName: "Registro Acadêmico",
+      headerClassName: "bg-neutral-900 text-white",
+      width: 300,
     }
   ];
 
-  const rows: IRow[] = [
-    {
-      id: "1",
-      name: 'Mauricião Sampaio Miguel da Grota Júnior da Silva',
-      book: "Como queimar um Pneu",
-      DateOfLoan: "22-04-2023",
-    },
-    {
-      id: "2",
-      name: 'Mauricião',
-      book: "Capoeirista loko",
-      DateOfLoan: "22-04-2023",
-    },
-    {
-      id: "3",
-      name: 'Mauricião',
-      book: "Onças Pintadas",
-      DateOfLoan: "22-04-2023",
-    },
-    {
-      id: "4",
-      name: 'Mauricião',
-      book: "Manual do Alien",
-      DateOfLoan: "22-04-2023",
-    },
-    {
-      id: "5",
-      name: 'Mauricião',
-      book: "Como queimar um Pneu",
-      DateOfLoan: "22-04-2023",
-    },
-    {
-      id: "6",
-      name: 'Mauricião',
-      book: "Capoeirista loko",
-      DateOfLoan: "22-04-2023",
-    },
-    {
-      id: "7",
-      name: 'Mauricião',
-      book: "Onças Pintadas",
-      DateOfLoan: "22-04-2023",
-    },
-    {
-      id: "8",
-      name: 'Mauricião',
-      book: "Manual do Alien",
-      DateOfLoan: "22-04-2023",
-    },
-  ];
+  const rows: IStudents[] = data.map((res, index) => ({
+    periodo: res.periodo,
+    curso: res.curso,
+    registro_academico: res.registro_academico
+  }))
+
 
   function changeBackgroundColor(data: number) {
     if (data % 2 == 0) {
@@ -122,7 +100,7 @@ export default function Loan(props: any) {
               paginationModel: { pageSize: 10 },
             },
           }}
-          getRowId={(row) => row.id}
+          getRowId={(row) => row.curso}
           className={`bg-white m-auto`}
           columns={columns}
           rows={rows}
@@ -133,10 +111,10 @@ export default function Loan(props: any) {
         <div className="flex mt-5 ml-8 justify-center text-4xl">Alunos</div>
         <div className="grid mt-5 ml-8">
           {rows.map((e, index) => (
-            <div onClick={() => push('/addStudents')} key={e.id}
+            <div onClick={() => push('/addStudents')} key={e.id_aluno}
               className={` ${changeBackgroundColor(index)} grid-cols-1 w-full text-center p-2 m-auto`}
             >
-              {e.name.slice(0, 35)}
+              {/* {e.name.slice(0, 35)} */}
             </div>
           ))}
         </div>
