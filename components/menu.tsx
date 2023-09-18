@@ -1,3 +1,4 @@
+import { tokenService } from "@/src/auth/tokenService";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
@@ -30,6 +31,7 @@ export default function Menu() {
   const [changeValueMenu, setChangeValueMenu] = useState<boolean>(true);
   const [windowSize, setWindowSize] = useState<number>(0);
   const { pathname } = useRouter()
+  const { push } = useRouter()
 
   function ChangeStateMenu() {
     setChangeValueMenu(!changeValueMenu);
@@ -44,6 +46,11 @@ export default function Menu() {
   useEffect(() => {
     setWindowSize(globalThis?.window?.innerWidth)
   },[])
+
+  function handleSignOut(){
+    // tokenService.destroy
+    push('/signUp')
+  }
 
   return (
     <>
@@ -87,13 +94,13 @@ export default function Menu() {
             }
           </div>
           {changeValueMenu ? (
-            <Link
-              href={"/signUp"}
+            <div
+              onClick={handleSignOut}
               className="item-menu-open bottom-0 w-full absolute"
             >
               <GiEntryDoor size={25} />
               <h1>Sair</h1>
-            </Link>
+            </div>
           ) : (
             <div className="item-menu-close bottom-0 fixed">
               <Link href={"/signUp"}>
