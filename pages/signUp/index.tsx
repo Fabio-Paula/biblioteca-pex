@@ -1,45 +1,41 @@
-import { authService } from "@/src/auth/authService";
+import { ToastError } from "@/components/Toast";
+import { signIn } from "next-auth/react";
 import { useRouter } from "next/router";
-import React from "react";
-import { useForm } from "react-hook-form";
+import { FormEventHandler, useState } from "react";
 
 export interface IFormInput {
-  Login: string;
-  Senha: string;
+  login: string;
+  senha: string;
 }
 
 export default function Login() {
-  const router = useRouter();
-  const [values, setValues] = React.useState({
-    user: 'fabio',
-    password: 'safepassword'
-  })
+  const {push} = useRouter();
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<IFormInput>({
-    defaultValues: { Login: "", Senha: "" },
-  });
+  const [userInfo, setUserInfo] = useState({email: '', password: ''})
 
-  console.log(errors);
+  const handleSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
+    e.preventDefault();
+    try {
+      const res = await signIn("credentials", {
+        login: userInfo.email,
+        senha: userInfo.password,
+        redirect: false,
+      });
+      if (res?.ok) {
+        push("/");
+      }
+    } catch {
+      ToastError({
+        title: "Algo deu errado! Confira seus dados e tente novamente",
+      });
+    }
+  };
+
 
   return (
-    <div>
+    <div className="flex justify-center h-full items-center">
       <form
-        onSubmit={handleSubmit((data) => {
-          authService
-            .login(data) 
-            .then(() => {
-              router.push("/dashboard");
-            })
-            .catch(() => {
-              <p>Usuário ou senha estão inválidos</p>;
-              console.log("errors");
-            });
-          console.log(data);
-        })}
+        onSubmit={handleSubmit}
         className="grid grid-cols-1 lg:grid-cols-3 w-[30rem] lg:w-[50rem] drop-shadow-xl"
       >
         <h1 className="lg:col-span-2 h-24 lg:h-auto logo bg-neutral-900">
@@ -52,23 +48,20 @@ export default function Login() {
             </div>
             <div className="mt-5">
               <input
+                onChange={({ target }) =>
+                setUserInfo({ ...userInfo, email: target.value })
+              }
                 className="input-login"
-                {...register("Login", { required: "Inserir o Nome" })}
                 placeholder="  Login"
               />
-              <p>{errors.Login?.message}</p>
               <input
+              onChange={({ target }) =>
+              setUserInfo({ ...userInfo, password: target.value })
+              }
                 type="password"
                 className="mt-5 input-login"
-                {...register("Senha", {
-                  required: "Inserir a Senha",
-                })}
                 placeholder="  Senha"
               />
-              <p>{errors.Senha?.message}</p>
-            </div>
-            <div className="mt-5">
-              <h1 className="cursor-pointer">Manter-se Conectado</h1>
             </div>
             <div className="cursor-pointer p-2 mb-5 w-28 mt-5 hover:bg-neutral-950 text-white bg-neutral-900">
               <input className="flex m-auto cursor-pointer" type="submit" />
