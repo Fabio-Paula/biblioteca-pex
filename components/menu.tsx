@@ -1,4 +1,3 @@
-import { tokenService } from "@/src/auth/tokenService";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
@@ -57,8 +56,8 @@ export default function Menu() {
     {pathname != '/signUp' &&
     <>
     {changeValueMenu && windowSize < 1024 ?
-      <div onClick={() => setChangeValueMenu(false)} className="fixed w-full h-full bg-black/40 backdrop-blur-sm" /> : null}
-      <nav className="relative lg:flex">
+      <div onClick={() => setChangeValueMenu(false)} className="fixed w-full h-full z-[999] bg-black/40 backdrop-blur-sm" /> : null}
+      <nav className="relative lg:flex z-[1000]">
         <div
           className={
             changeValueMenu
