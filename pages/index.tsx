@@ -2,12 +2,15 @@ import Button from "@/components/button";
 import { Box, Typography } from "@mui/material";
 import { DataGrid, GridRowSelectionModel } from "@mui/x-data-grid";
 import { useState } from "react";
+import { Signed } from "./api/protectPages";
 
 interface IRow {
   id: string;
   book: string;
   author: string;
 }
+
+export const getServerSideProps = Signed()
 
 export default function Books(props: any) {
   const columns = [
