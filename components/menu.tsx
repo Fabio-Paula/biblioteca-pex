@@ -59,11 +59,10 @@ export default function Menu() {
       <div onClick={() => setChangeValueMenu(false)} className="fixed w-full h-full z-[999] bg-black/40 backdrop-blur-sm" /> : null}
       <nav className="relative lg:flex z-[1000]">
         <div
-          className={
-            changeValueMenu
-              ? "w-[14rem] absolute lg:relative h-screen transition-all duration-200 colors-menu"
-              : "w-[3.5rem] absolute lg:relative h-screen transition-all duration-200 colors-menu"
-          }
+          className={`
+            ${changeValueMenu ? "w-[14rem]" : "w-[3.5rem]"}
+               absolute lg:relative h-screen transition-all duration-200 colors-menu"
+          `}
         >
         {changeValueMenu && (
             <Link href={"/"} className="flex-center">
